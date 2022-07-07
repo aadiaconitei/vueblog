@@ -1,6 +1,6 @@
 import { User } from "./../types/User";
 import { db } from "../db";
-import  bcryptjs  from 'bcryptjs';
+import bcryptjs from "bcryptjs";
 import { OkPacket, RowDataPacket } from "mysql2";
 // Get all users
 export const findAll = (callback: Function) => {
@@ -18,7 +18,6 @@ export const findAll = (callback: Function) => {
         lname: row.lname,
         email: row.email,
         password: row.password,
-        
       };
       users.push(user);
     });
@@ -39,8 +38,7 @@ export const findOne = (userId: number, callback: Function) => {
       fname: row.fname,
       lname: row.lname,
       email: row.email,
-      password: row.password
-     
+      password: row.password,
     };
     callback(null, user);
   });
@@ -49,21 +47,31 @@ export const findOne = (userId: number, callback: Function) => {
 export const create = (user: User, callback: Function) => {
   const queryString =
     "INSERT INTO users (fname, lname, email, password) VALUES (?, ?, ?, ?)";
-    console.log(user);
-    let saltRounds = 10;
-    let password_hash=bcryptjs.hashSync(user.password!, saltRounds);
-  db.query(
-    queryString,
-    [user.fname, user.lname, user.email, password_hash],
-    (err, result) => {
-      if (err) {
-        callback(err);
+  console.log(user);
+  let saltRounds = 10;
+  let password_hash = bcryptjs.hashSync(user.password!, saltRounds);
+  try {
+    db.query(
+      queryString,
+      [user.fname, user.lname, user.email, password_hash],
+      (err, result) => {
+        if (err) {
+          callback(err);
+        }
+        
+        if((<OkPacket>result) !== undefined){
+          const insertId = (<OkPacket>result).insertId;
+          callback(null, insertId);
+        }
+        else{
+          console.log('error email');
+          callback(null, 0);
+        }
       }
-        const insertId = (<OkPacket>result).insertId;
-        callback(null, insertId);
-      
-    }
-  );
+    );
+  } catch (error) {
+    callback(error);
+  }
 };
 
 // update user
@@ -91,39 +99,32 @@ export const deleteUser = (user: number, callback: Function) => {
 };
 
 //login  example
-export const veifyPassword  = (user: User, callback: Function) => {
+export const veifyPassword = (user: User, callback: Function) => {
   const queryString = `SELECT id, lname, fname,email, password from users where email=? LIMIT 1;`;
   const passwordUser = user.password;
   db.query(queryString, [user.email], (err, result) => {
     if (err) {
       callback(err);
     }
-    if((result as any).length ==1){
+    if ((result as any).length == 1) {
       const row = (<RowDataPacket>result)[0];
-      var password_hash=row.password;
-	    const verified = bcryptjs.compareSync(passwordUser!, password_hash);
-      if(verified){
-        
+      var password_hash = row.password;
+      const verified = bcryptjs.compareSync(passwordUser!, password_hash);
+      if (verified) {
         const user: User = {
           id: row.id,
           fname: row.fname,
           lname: row.lname,
           email: row.email,
-         // password: row.password
-         
+          // password: row.password
         };
         callback(null, user);
-
-      }
-      else{
-        console.log("Password doesn't match!")
+      } else {
+        console.log("Password doesn't match!");
         callback("Invalid Password!" + err?.message);
       }
-    }
-    else{
+    } else {
       callback("User Not found." + err?.message);
     }
   });
-}
-
-
+};
