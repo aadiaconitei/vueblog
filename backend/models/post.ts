@@ -6,7 +6,7 @@ export const findAll = (callback: Function) => {
   const queryString = `SELECT * FROM posts`;
   db.query(queryString, (err, result) => {
     if (err) {
-      callback(err);
+      callback(err); 
     }
     const rows = <RowDataPacket[]>result;
     const posts: Post[] = [];

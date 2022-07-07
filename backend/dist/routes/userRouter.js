@@ -39,6 +39,7 @@ exports.userRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const userModel = __importStar(require("../models/user"));
+const jwt_1 = require("../jwt");
 const userRouter = express_1.default.Router();
 exports.userRouter = userRouter;
 var jsonParser = bodyParser.json();
@@ -102,10 +103,21 @@ userRouter.post("/veifyLogin", jsonParser, (req, res) => __awaiter(void 0, void 
     const loginUser = req.body;
     userModel.veifyPassword(loginUser, (err, user) => {
         if (err) {
-            return res.status(500).json({ "message": err.message });
+            return res.status(401).send({
+                accessToken: null,
+                message: err.message
+            });
+            //return res.status(500).json({"message": err.message});
         }
-        // req.session.loggedin = true;
-        // req.session.email = user.email;
-        res.status(200).json({ "message": 'success' });
+        var token = (0, jwt_1.generateToken)();
+        console.log('JWT', token);
+        //res.status(200).json({"message": 'success'});
+        res.status(200).send({
+            id: user.id,
+            fname: user.fname,
+            email: user.email,
+            roles: 'ADMIN',
+            accessToken: token
+        });
     });
 }));

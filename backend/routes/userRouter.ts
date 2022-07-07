@@ -3,6 +3,8 @@ import * as bodyParser from "body-parser";
 
 import * as userModel from "../models/user";
 import {User} from "../types/User";
+import { generateToken } from '../jwt';
+
 const userRouter = express.Router();
 var jsonParser = bodyParser.json();
 
@@ -75,11 +77,22 @@ userRouter.post("/veifyLogin",jsonParser, async (req: Request, res: Response) =>
   const loginUser: User = req.body;
   userModel.veifyPassword(loginUser, (err: Error, user: User) => {
     if (err) {
-      return res.status(500).json({"message": err.message});
+      return res.status(401).send({
+        accessToken: null,
+        message: err.message
+      });
+      //return res.status(500).json({"message": err.message});
     }
-   // req.session.loggedin = true;
-   // req.session.email = user.email;
-    res.status(200).json({"message": 'success'});
+     var token = generateToken();
+     console.log('JWT', token);
+    //res.status(200).json({"message": 'success'});
+    res.status(200).send({
+      id: user.id,
+      fname: user.fname,
+      email: user.email,
+      roles: 'ADMIN',
+      accessToken: token
+    });
   });
 });
 

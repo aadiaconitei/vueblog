@@ -86,9 +86,9 @@ const deleteUser = (user, callback) => {
     });
 };
 exports.deleteUser = deleteUser;
-//login query example
+//login  example
 const veifyPassword = (user, callback) => {
-    const queryString = `SELECT password from users where email=? LIMIT 1;`;
+    const queryString = `SELECT id, lname, fname,email, password from users where email=? LIMIT 1;`;
     const passwordUser = user.password;
     db_1.db.query(queryString, [user.email], (err, result) => {
         if (err) {
@@ -104,17 +104,17 @@ const veifyPassword = (user, callback) => {
                     fname: row.fname,
                     lname: row.lname,
                     email: row.email,
-                    password: row.password
+                    // password: row.password
                 };
                 callback(null, user);
             }
             else {
                 console.log("Password doesn't match!");
-                callback(err);
+                callback("Invalid Password!" + (err === null || err === void 0 ? void 0 : err.message));
             }
         }
         else {
-            callback(err);
+            callback("User Not found." + (err === null || err === void 0 ? void 0 : err.message));
         }
     });
 };
