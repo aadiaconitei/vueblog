@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findOne = exports.findAll = void 0;
+exports.create = exports.findOne = exports.findAll = void 0;
 const db_1 = require("../db");
 // Get all posts
 const findAll = (callback) => {
@@ -45,3 +45,15 @@ const findOne = (postId, callback) => {
     });
 };
 exports.findOne = findOne;
+// create user
+const create = (post, callback) => {
+    const queryString = "INSERT INTO posts (title, content, categoryId) VALUES (?, ?, ?)";
+    db_1.db.query(queryString, [post.title, post.content, post.categoryId], (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const insertId = result.insertId;
+        callback(null, insertId);
+    });
+};
+exports.create = create;

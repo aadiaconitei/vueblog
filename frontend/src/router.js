@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
+import AddPost from "./components/AddPost.vue";
 // import ProductList from "./components/ProductList.vue";
 // import ProductCreate from "./components/ProductCreate.vue";
 // import ProductEdit from "./components/ProductEdit.vue";
@@ -26,6 +27,10 @@ const routes = [
   {
     path: "/register",
     component: Register,
+  },
+  {
+    path: "/add-post",
+    component: AddPost,
   },
   {
     path: "/profile",

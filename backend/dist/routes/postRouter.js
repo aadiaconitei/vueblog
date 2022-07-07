@@ -59,3 +59,13 @@ postRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).json({ "data": post });
     });
 }));
+postRouter.post("/", jsonParser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    const newPost = req.body;
+    postModel.create(newPost, (err, postId) => {
+        if (err) {
+            return res.status(500).json({ "message": err.message });
+        }
+        res.status(200).json({ "postId": postId });
+    });
+}));

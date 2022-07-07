@@ -28,7 +28,17 @@ postRouter.get("/:id", async (req: Request, res: Response) => {
   })
 });
 
+postRouter.post("/",jsonParser, async (req: Request, res: Response) => {
+  console.log(req.body);
+  const newPost: Post = req.body;
+  postModel.create(newPost, (err: Error, postId: number) => {
+    if (err) {
+      return res.status(500).json({"message": err.message});
+    }
 
+    res.status(200).json({"postId": postId});
+  });
+});
 
 
 export {postRouter};

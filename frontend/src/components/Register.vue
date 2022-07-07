@@ -9,14 +9,14 @@
       <Form @submit="handleRegister" :validation-schema="schema">
         <div v-if="!successful">
           <div class="form-group">
-            <label for="nume">Nume</label>
+            <label for="lname">Nume</label>
             <Field name="lname" type="text" class="form-control" />
-            <ErrorMessage name="nume" class="error-feedback" />
+            <ErrorMessage name="lname" class="error-feedback" />
           </div>
           <div class="form-group">
-            <label for="prenume">Prenme</label>
+            <label for="fname">Prenme</label>
             <Field name="fname" type="text" class="form-control" />
-            <ErrorMessage name="prenume" class="error-feedback" />
+            <ErrorMessage name="fname" class="error-feedback" />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
@@ -68,12 +68,12 @@ export default {
     const schema = yup.object().shape({
       lname: yup
         .string()
-        .required("Nume is required!")
+        .required("Numele este obligatoriu!")
         .min(3, "Must be at least 3 characters!")
         .max(20, "Must be maximum 20 characters!"),
       fname: yup
         .string()
-        .required("Prenume is required!")
+        .required("Prenumele este obligatoriu!")
         .min(3, "Must be at least 3 characters!")
         .max(20, "Must be maximum 20 characters!"),
       email: yup

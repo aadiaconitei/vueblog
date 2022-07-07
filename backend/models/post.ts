@@ -45,3 +45,23 @@ export const findOne = (postId: number, callback: Function) => {
     callback(null, post);
   });
 };
+
+// create user
+export const create = (post: Post, callback: Function) => {
+  const queryString =
+    "INSERT INTO posts (title, content, categoryId) VALUES (?, ?, ?)";
+   
+    
+  db.query(
+    queryString,
+    [post.title, post.content, post.categoryId],
+    (err, result) => {
+      if (err) {
+        callback(err);
+      }
+        const insertId = (<OkPacket>result).insertId;
+        callback(null, insertId);
+      
+    }
+  );
+};
