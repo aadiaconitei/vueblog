@@ -70,11 +70,7 @@ postRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function*
 postRouter.post("/", jsonParser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const newPost = req.body;
-<<<<<<< HEAD
-    postModel.create(newPost, (err, postId) => {
-=======
     postModel.addPost(newPost, (err, postId) => {
->>>>>>> c98de516b3a35434bfdef7d0e5f8cdac59b104a6
         if (err) {
             return res.status(500).json({ "message": err.message });
         }
