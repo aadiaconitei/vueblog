@@ -65,26 +65,6 @@ export const findOne = (postId: number, callback: Function) => {
   });
 };
 
-<<<<<<< HEAD
-// create user
-export const create = (post: Post, callback: Function) => {
-  const queryString =
-    "INSERT INTO posts (title, content, categoryId) VALUES (?, ?, ?)";
-   
-    
-  db.query(
-    queryString,
-    [post.title, post.content, post.categoryId],
-    (err, result) => {
-      if (err) {
-        callback(err);
-      }
-        const insertId = (<OkPacket>result).insertId;
-        callback(null, insertId);
-      
-    }
-  );
-=======
 // create post
 export const addPost = (post: Post, callback: Function) => {
   const queryString =
@@ -114,5 +94,4 @@ export const addPost = (post: Post, callback: Function) => {
   } catch (error) {
     callback(error);
   }
->>>>>>> c98de516b3a35434bfdef7d0e5f8cdac59b104a6
 };
