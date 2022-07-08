@@ -43,7 +43,7 @@ postRouter.post("/",jsonParser, async (req: Request, res: Response) => {
     if (err) {
       return res.status(500).json({"message": err.message});
     }
-    res.status(200).json({"postId": postId});
+    res.status(200).json({"message": 'Datele au fost introduse cu succes'});
   });
 });
 
