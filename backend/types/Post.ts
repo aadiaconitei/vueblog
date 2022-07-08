@@ -4,5 +4,6 @@ export interface Post  {
     content: string,
     categoryId: number,
     date: Date,
-    categoryName?: string
+    categoryName?: string,
+    images?:string,
 }

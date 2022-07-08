@@ -58,6 +58,7 @@ const findOne = (postId, callback) => {
             content: row.content,
             categoryId: row.categoryId,
             categoryName: row.name,
+            images: row.images,
             date: row.date,
         };
         callback(null, post);

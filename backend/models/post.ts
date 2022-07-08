@@ -58,6 +58,7 @@ export const findOne = (postId: number, callback: Function) => {
         content: row.content,
         categoryId: row.categoryId,
         categoryName: row.name,
+        images: row.images,
         date: row.date,
      
     };

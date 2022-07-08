@@ -9,6 +9,9 @@ class PostService {
   addPost(data) {
     return http.post(`/posts`, data);
   }
+  getPostById(id){
+    return http.get(`/posts/${id}`);
+  }
 
   getCategories(){
     return http.get('/posts/categories');

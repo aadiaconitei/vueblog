@@ -45,7 +45,7 @@ exports.adminRouter = adminRouter;
 var jsonParser = bodyParser.json();
 adminRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!(0, jwt_1.verifyToken)(req, res)) {
-        return res.status(403).json({ "message": 'Trebue sa fi logat pentru a accesa aceasta zona!' });
+        return res.status(403).json({ "message": '<b>Trebue sa fi logat pentru a accesa aceasta zona!<b>' });
     }
     postModel.findAll((err, posts) => {
         if (err) {
