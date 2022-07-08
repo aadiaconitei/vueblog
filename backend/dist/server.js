@@ -10,6 +10,7 @@ const path_1 = __importDefault(require("path"));
 const express_session_1 = __importDefault(require("express-session"));
 const userRouter_1 = require("./routes/userRouter");
 const postRouter_1 = require("./routes/postRouter");
+const adminRouter_1 = require("./routes/adminRouter");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -23,6 +24,7 @@ const port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.use("/users", userRouter_1.userRouter);
 app.use("/posts", postRouter_1.postRouter);
+app.use("/admin", adminRouter_1.adminRouter);
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server!!!!');
     //res.sendFile(path.join(__dirname+'/acasa.html'));

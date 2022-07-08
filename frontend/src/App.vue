@@ -43,6 +43,11 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link to="/add-post" class="nav-link">
+           Add post
+          </router-link>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" @click.prevent="logOut">
             LogOut
           </a>

@@ -5,6 +5,7 @@ import path from 'path';
 import  session, {Session} from "express-session";
 import { userRouter } from './routes/userRouter';
 import { postRouter } from './routes/postRouter';
+import { adminRouter } from './routes/adminRouter';
 dotenv.config();
 
 const app: Express = express();
@@ -20,6 +21,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use("/users", userRouter);
 app.use("/posts", postRouter);
+app.use("/admin", adminRouter);
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server!!!!');
   //res.sendFile(path.join(__dirname+'/acasa.html'));

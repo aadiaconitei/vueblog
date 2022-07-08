@@ -65,6 +65,7 @@ const create = (user, callback) => {
             }
             else {
                 console.log('error email');
+                callback(null, 0);
             }
         });
     }

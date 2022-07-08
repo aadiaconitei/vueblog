@@ -23,8 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateToken = void 0;
-const jsonwebtoken_1 = require("jsonwebtoken");
+exports.verifyToken = exports.generateToken = void 0;
+const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 /**
@@ -50,4 +50,28 @@ function generateToken() {
     return (0, jsonwebtoken_1.sign)(payload, key, signInOptions);
 }
 exports.generateToken = generateToken;
+;
+function verifyToken(req, res) {
+    let token = req.headers["x-access-token"];
+    console.log('token', token);
+    if (!token) {
+        return false;
+        // return res.status(403).send({
+        //   message: "No token provided!"
+        // });
+    }
+    let key = process.env.SECRET_KEY;
+    jsonwebtoken_1.default.verify(token, key, (err, decoded) => {
+        if (err) {
+            return false;
+            // return res.status(401).send({
+            //   message: "Unauthorized!"
+            // });
+        }
+        //req.admin = decoded.admin;
+        console.log('decoded', decoded);
+    });
+    return true;
+}
+exports.verifyToken = verifyToken;
 ;

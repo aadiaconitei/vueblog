@@ -2,9 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
-// import ProductList from "./components/ProductList.vue";
-// import ProductCreate from "./components/ProductCreate.vue";
-// import ProductEdit from "./components/ProductEdit.vue";
+import AddPost from "./components/AddPost.vue";
+import ViewPost from "./components/ViewPost.vue";
+
 // lazy-loaded
 const Profile = () => import("./components/Profile.vue")
 const BoardAdmin = () => import("./components/BoardAdmin.vue")
@@ -28,6 +28,15 @@ const routes = [
     component: Register,
   },
   {
+    path: "/add-post",
+    component: AddPost,
+  },
+  {
+    name: "/ViewPost",
+    path: "/view-post/:id",
+    component: ViewPost,
+},
+  {
     path: "/profile",
     name: "profile",
     // lazy-loaded
@@ -38,7 +47,8 @@ const routes = [
     name: "admin",
     // lazy-loaded
     component: BoardAdmin,
-  }
+  },
+
 
 
 ];
