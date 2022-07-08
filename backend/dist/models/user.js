@@ -42,7 +42,7 @@ const findOne = (userId, callback) => {
             fname: row.fname,
             lname: row.lname,
             email: row.email,
-            password: row.password
+            password: row.password,
         };
         callback(null, user);
     });
@@ -54,13 +54,24 @@ const create = (user, callback) => {
     console.log(user);
     let saltRounds = 10;
     let password_hash = bcryptjs_1.default.hashSync(user.password, saltRounds);
-    db_1.db.query(queryString, [user.fname, user.lname, user.email, password_hash], (err, result) => {
-        if (err) {
-            callback(err);
-        }
-        const insertId = result.insertId;
-        callback(null, insertId);
-    });
+    try {
+        db_1.db.query(queryString, [user.fname, user.lname, user.email, password_hash], (err, result) => {
+            if (err) {
+                callback(err);
+            }
+            if (result !== undefined) {
+                const insertId = result.insertId;
+                callback(null, insertId);
+            }
+            else {
+                console.log('error email');
+                callback(null, 0);
+            }
+        });
+    }
+    catch (error) {
+        callback(error);
+    }
 };
 exports.create = create;
 // update user

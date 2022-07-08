@@ -35,49 +35,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postRouter = void 0;
+exports.adminRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
+const jwt_1 = require("../jwt");
 const postModel = __importStar(require("../models/post"));
-const postRouter = express_1.default.Router();
-exports.postRouter = postRouter;
+const adminRouter = express_1.default.Router();
+exports.adminRouter = adminRouter;
 var jsonParser = bodyParser.json();
-postRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+adminRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!(0, jwt_1.verifyToken)(req, res)) {
+        return res.status(403).json({ "message": 'Trebue sa fi logat pentru a accesa aceasta zona!' });
+    }
     postModel.findAll((err, posts) => {
         if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-        res.status(200).json({ "data": posts });
-    });
-}));
-postRouter.get("/categories", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    postModel.findAllCategories((err, posts) => {
-        if (err) {
-            return res.status(500).json({ "errorMessage": err.message });
-        }
-        res.status(200).json({ "data": posts });
-    });
-}));
-postRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const postId = Number(req.params.id);
-    postModel.findOne(postId, (err, post) => {
-        if (err) {
             return res.status(500).json({ "message": err.message });
         }
-        res.status(200).json({ "data": post });
-    });
-}));
-postRouter.post("/", jsonParser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    const newPost = req.body;
-<<<<<<< HEAD
-    postModel.create(newPost, (err, postId) => {
-=======
-    postModel.addPost(newPost, (err, postId) => {
->>>>>>> c98de516b3a35434bfdef7d0e5f8cdac59b104a6
-        if (err) {
-            return res.status(500).json({ "message": err.message });
-        }
-        res.status(200).json({ "postId": postId });
+        res.status(200).json({ "data": posts });
     });
 }));

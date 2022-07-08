@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
 exports.create = exports.findOne = exports.findAll = void 0;
+=======
+exports.addPost = exports.findOne = exports.findAllCategories = exports.findAll = void 0;
+>>>>>>> c98de516b3a35434bfdef7d0e5f8cdac59b104a6
 const db_1 = require("../db");
 // Get all posts
 const findAll = (callback) => {
@@ -25,6 +29,25 @@ const findAll = (callback) => {
     });
 };
 exports.findAll = findAll;
+const findAllCategories = (callback) => {
+    const queryString = `SELECT * FROM categories`;
+    db_1.db.query(queryString, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        const rows = result;
+        const categories = [];
+        rows.forEach((row) => {
+            const category = {
+                id: row.id,
+                name: row.name
+            };
+            categories.push(category);
+        });
+        callback(null, categories);
+    });
+};
+exports.findAllCategories = findAllCategories;
 // Get one user
 const findOne = (postId, callback) => {
     const queryString = `SELECT * FROM posts AS p INNER JOIN categories AS c ON p.categoryId = c.id WHERE p.id=?`;
@@ -45,6 +68,7 @@ const findOne = (postId, callback) => {
     });
 };
 exports.findOne = findOne;
+<<<<<<< HEAD
 // create user
 const create = (post, callback) => {
     const queryString = "INSERT INTO posts (title, content, categoryId) VALUES (?, ?, ?)";
@@ -57,3 +81,30 @@ const create = (post, callback) => {
     });
 };
 exports.create = create;
+=======
+// create post
+const addPost = (post, callback) => {
+    const queryString = "INSERT INTO posts (title, content, categoryId) VALUES (?, ?, ?)";
+    console.log(post);
+    try {
+        let sqldeb = db_1.db.query(queryString, [post.title, post.content, post.categoryId], (err, result) => {
+            if (err) {
+                callback(err);
+            }
+            if (result !== undefined) {
+                const insertId = result.insertId;
+                callback(null, insertId);
+            }
+            else {
+                console.log('error insert');
+                callback(null, 0);
+            }
+        });
+        console.log(sqldeb.sql);
+    }
+    catch (error) {
+        callback(error);
+    }
+};
+exports.addPost = addPost;
+>>>>>>> c98de516b3a35434bfdef7d0e5f8cdac59b104a6
